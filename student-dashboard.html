@@ -215,7 +215,13 @@
                 item.classList.add('active');
                 
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.getElementById(item.getAttribute('data-tab')).classList.add('active');
+                const tabId = item.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+
+                // If user clicks the pairing tab, refresh supervisor info
+                if (tabId === 'tab-pairing') {
+                    loadSupervisorInfo();
+                }
 
                 // Auto-close sidebar on mobile after clicking a tab
                 if (window.innerWidth <= 768) {
@@ -285,7 +291,14 @@
         }
 
         async function loadSupervisorInfo() {
-            if (!currentProfile.supervisor_id) return;
+            const { data: freshProfile } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
+            if (freshProfile) { currentProfile = freshProfile; }
+
+            if (!currentProfile.supervisor_id) {
+                document.getElementById('supervisorInfoContainer').innerHTML = '<p style="color: var(--muted-color);">No supervisor linked yet.</p>';
+                return;
+            }
+
             const { data: sup } = await supabaseClient.from('profiles').select('*').eq('id', currentProfile.supervisor_id).single();
             if (sup) {
                 document.getElementById('supervisorInfoContainer').innerHTML = `

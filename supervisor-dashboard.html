@@ -185,7 +185,13 @@
                 item.classList.add('active');
                 
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.getElementById(item.getAttribute('data-tab')).classList.add('active');
+                const tabId = item.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+
+                // If clicking students tab, refresh linked students
+                if (tabId === 'tab-students') {
+                    loadLinkedStudents();
+                }
 
                 // Auto-close sidebar on mobile after clicking a tab
                 if (window.innerWidth <= 768) {
@@ -216,10 +222,14 @@
             const { data: student, error } = await supabaseClient.from('profiles').select('*').eq('pairing_code', code).single();
             if (error || !student) { alert('Invalid pairing code.'); return; }
 
-            await supabaseClient.from('profiles').update({ supervisor_id: currentUser.id }).eq('id', student.id);
+            const { error: updateError } = await supabaseClient.from('profiles').update({ supervisor_id: currentUser.id }).eq('id', student.id);
+            if (updateError) { alert(updateError.message); return; }
+
             alert(`Successfully linked student: ${student.full_text}`);
             document.getElementById('pairingInput').value = '';
-            loadLinkedStudents();
+            
+            // Instantly reload linked students list
+            await loadLinkedStudents();
         });
 
         async function loadLinkedStudents() {
