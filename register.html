@@ -57,7 +57,7 @@
     <script>
         const SUPABASE_URL = 'https://kzzkiusejygarfvzmynj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_Mot41EqEP95KJVbjrfx2kw_1bdpo2Ue';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -70,7 +70,7 @@
 
             const pairingCode = role === 'student' ? 'IV-' + Math.random().toString(36).substring(2, 8).toUpperCase() : null;
 
-            const { data, error } = await supabase.auth.signUp({ email, password });
+            const { data, error } = await supabaseClient.auth.signUp({ email, password });
             if (error) {
                 errDiv.textContent = error.message;
                 errDiv.style.display = 'block';
@@ -78,7 +78,7 @@
             }
 
             if (data.user) {
-                const { error: profileError } = await supabase.from('profiles').insert([{
+                const { error: profileError } = await supabaseClient.from('profiles').insert([{
                     id: data.user.id,
                     full_text: fullName,
                     email: email,

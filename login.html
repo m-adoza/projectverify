@@ -47,7 +47,7 @@
     <script>
         const SUPABASE_URL = 'https://kzzkiusejygarfvzmynj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_Mot41EqEP95KJVbjrfx2kw_1bdpo2Ue';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -56,14 +56,14 @@
             const errDiv = document.getElementById('errorMsg');
             errDiv.style.display = 'none';
 
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) {
                 errDiv.textContent = error.message;
                 errDiv.style.display = 'block';
                 return;
             }
 
-            const { data: profile } = await supabase.from('profiles').select('role').eq('id', data.user.id).single();
+            const { data: profile } = await supabaseClient.from('profiles').select('role').eq('id', data.user.id).single();
             if (profile && profile.role === 'supervisor') {
                 window.location.href = 'supervisor-dashboard.html';
             } else {
