@@ -67,6 +67,8 @@
             }
             .sidebar.expanded { left: 0; }
             .sidebar-brand span, .sidebar-menu li a span { opacity: 1 !important; }
+            #globalMobileToggle { display: block !important; }
+            .sidebar-brand { display: none; }
             .main-content { overflow: visible; width: 100%; }
         }
     </style>
@@ -88,7 +90,10 @@
 
     <div class="main-content">
         <div class="topbar">
-            <span id="welcomeUser" style="font-weight: 600;">Loading supervisor...</span>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="fa-solid fa-bars" id="globalMobileToggle" style="font-size: 1.25rem; cursor: pointer; display: none;"></i>
+                <span id="welcomeUser" style="font-weight: 600;">Loading supervisor...</span>
+            </div>
             <button class="btn-black" id="logoutBtn" style="padding: 6px 14px; font-size: 0.85rem;">Logout</button>
         </div>
 
@@ -164,7 +169,10 @@
         let currentProfile = null;
         let activeChatStudentId = null;
 
-        // Mobile Hamburger Toggle (Slide from left)
+        // Mobile Hamburger Toggles
+        document.getElementById('globalMobileToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('expanded');
+        });
         document.getElementById('mobileMenuToggle').addEventListener('click', () => {
             document.getElementById('sidebar').classList.toggle('expanded');
         });
