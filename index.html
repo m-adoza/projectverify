@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProjectVerify – Intelligent Project Topic Approval & Plagiarism Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #0f172a;
+            --muted-color: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: #f8fafc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .navbar { border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background: #fff; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; list-style: none; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--muted-color); }
+        .btn { padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+        .btn-black { background: #000; color: #fff; border: 1px solid #000; }
+        .btn-black:hover { background: #333; }
+        .btn-outline { background: transparent; color: #000; border: 1px solid var(--border-color); }
+        .btn-outline:hover { border-color: #000; }
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        .hero { padding: 100px 0 60px; text-align: center; }
+        .hero h1 { font-size: 3rem; font-weight: 700; max-width: 800px; margin: 0 auto 20px; letter-spacing: -1px; }
+        .hero p { font-size: 1.15rem; color: var(--muted-color); max-width: 600px; margin: 0 auto 30px; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; }
+
+        .features { padding: 80px 0; background: var(--card-bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .section-title { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+        .section-sub { text-align: center; color: var(--muted-color); margin-bottom: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: #fff; border: 1px solid var(--border-color); padding: 30px; border-radius: 12px; }
+        .card i { font-size: 1.8rem; margin-bottom: 20px; color: #000; }
+        .card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+        .card p { color: var(--muted-color); font-size: 0.95rem; }
+
+        footer { padding: 40px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--muted-color); font-size: 0.9rem; }
+
+        @media(max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border-color); }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo"><i class="fa-solid fa-shield-halved"></i> ProjectVerify</div>
+            <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html" class="btn btn-outline">Login</a></li>
+                <li><a href="register.html" class="btn btn-black">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Intelligent Project Topic Approval & Plagiarism Detection</h1>
+            <p>Streamline academic submissions, verify originality through advanced similarity engines, and connect students with supervisors seamlessly.</p>
+            <div class="hero-btns">
+                <a href="register.html" class="btn btn-black">Get Started</a>
+                <a href="about.html" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Platform Features</h2>
+            <p class="section-sub">Designed specifically for modern tertiary institutions.</p>
+            <div class="grid">
+                <div class="card">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>AI Topic Verification</h3>
+                    <p>Automated algorithms check topic viability, scope, and alignment instantly upon submission.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-copy"></i>
+                    <h3>Plagiarism Detection</h3>
+                    <p>Compares student abstracts against existing repository archives using advanced text similarity metrics.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-link"></i>
+                    <h3>Supervisor Pairing Code</h3>
+                    <p>Unique secure token pairing connects students directly to their assigned faculty supervisors.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-comments"></i>
+                    <h3>Active Messaging</h3>
+                    <p>Direct communication pipeline between students and supervisors for feedback and revisions.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>Status Monitoring</h3>
+                    <p>Real-time progress tracking from initial submission to final supervisor sign-off.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 ProjectVerify. Built with Supabase & Render.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
