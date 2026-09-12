@@ -8,23 +8,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --border-color: #e2e8f0; --muted-color: #64748b; --card-bg: #f8fafc; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; text-decoration: none; }
         body { background: #fafafa; color: #0f172a; display: flex; height: 100vh; overflow: hidden; }
         
-        .sidebar { width: 260px; background: #fff; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .sidebar-brand { padding: 20px; font-weight: 700; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; }
-        .sidebar-menu { list-style: none; padding: 20px 0; flex: 1; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--muted-color); font-weight: 500; font-size: 0.95rem; cursor: pointer; }
-        .sidebar-menu li.active a, .sidebar-menu li a:hover { background: var(--card-bg); color: #000; border-right: 3px solid #000; }
+        /* Collapsible Sidebar */
+        .sidebar { width: 75px; background: #fff; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; transition: width 0.3s ease; overflow: hidden; z-index: 100; }
+        .sidebar:hover, .sidebar.expanded { width: 260px; }
         
+        .sidebar-brand { padding: 20px; font-weight: 700; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; white-space: nowrap; height: 70px; }
+        .sidebar-brand i { font-size: 1.25rem; min-width: 25px; text-align: center; cursor: pointer; }
+        .sidebar-brand span { opacity: 0; transition: opacity 0.2s ease; }
+        .sidebar:hover .sidebar-brand span, .sidebar.expanded .sidebar-brand span { opacity: 1; }
+        
+        .sidebar-menu { list-style: none; padding: 15px 10px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 15px; padding: 12px 14px; color: var(--muted-color); font-weight: 500; font-size: 0.9rem; border-radius: 8px; background: transparent; transition: all 0.2s; white-space: nowrap; border: 1px solid transparent; }
+        .sidebar-menu li a i { font-size: 1.1rem; min-width: 25px; text-align: center; }
+        .sidebar-menu li a span { opacity: 0; transition: opacity 0.2s ease; }
+        .sidebar:hover .sidebar-menu li a span, .sidebar.expanded .sidebar-menu li a span { opacity: 1; }
+        
+        .sidebar-menu li.active a, .sidebar-menu li a:hover { background: #000; color: #fff; border-color: #000; }
+        
+        /* Main Workspace */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .topbar { background: #fff; border-bottom: 1px solid var(--border-color); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .topbar { background: #fff; border-bottom: 1px solid var(--border-color); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .content-body { padding: 30px; max-width: 950px; width: 100%; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .card { background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
+        .card { background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 15px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; }
@@ -42,26 +54,30 @@
 
         @media(max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; }
+            .sidebar { width: 100% !important; height: auto; }
+            .sidebar-brand span, .sidebar-menu li a span { opacity: 1 !important; }
             .main-content { overflow: visible; }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-brand"><i class="fa-solid fa-shield-halved"></i> Supervisor Portal</div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-bars" id="mobileMenuToggle" style="cursor: pointer;"></i>
+            <span>Supervisor Portal</span>
+        </div>
         <ul class="sidebar-menu" id="sidebarMenu">
-            <li class="active" data-tab="tab-pairing"><a href="#"><i class="fa-solid fa-link"></i> Student Pairing</a></li>
-            <li data-tab="tab-students"><a href="#"><i class="fa-solid fa-users"></i> Monitor Students</a></li>
-            <li data-tab="tab-chat"><a href="#"><i class="fa-solid fa-comments"></i> Active Messaging</a></li>
-            <li data-tab="tab-profile"><a href="#"><i class="fa-solid fa-user"></i> Profile Settings</a></li>
+            <li class="active" data-tab="tab-pairing"><a href="#"><i class="fa-solid fa-link"></i> <span>Student Pairing</span></a></li>
+            <li data-tab="tab-students"><a href="#"><i class="fa-solid fa-users"></i> <span>Monitor Students</span></a></li>
+            <li data-tab="tab-chat"><a href="#"><i class="fa-solid fa-comments"></i> <span>Active Messaging</span></a></li>
+            <li data-tab="tab-profile"><a href="#"><i class="fa-solid fa-user"></i> <span>Profile Settings</span></a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="topbar">
-            <span id="welcomeUser">Loading supervisor...</span>
+            <span id="welcomeUser" style="font-weight: 600;">Loading supervisor...</span>
             <button class="btn-black" id="logoutBtn" style="padding: 6px 14px; font-size: 0.85rem;">Logout</button>
         </div>
 
@@ -136,6 +152,11 @@
         let currentUser = null;
         let currentProfile = null;
         let activeChatStudentId = null;
+
+        // Mobile Hamburger Toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('expanded');
+        });
 
         const menuItems = document.querySelectorAll('#sidebarMenu li');
         menuItems.forEach(item => {
@@ -260,7 +281,7 @@
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const full_text = document.getElementById('profName').value;
-            const { error } = await supabase.from('profiles').update({ full_text }).eq('id', currentUser.id);
+            const { error } = await supabaseClient.from('profiles').update({ full_text }).eq('id', currentUser.id);
             if (error) { alert(error.message); return; }
             alert('Profile updated successfully!');
         });
